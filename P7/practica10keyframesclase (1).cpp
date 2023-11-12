@@ -46,9 +46,6 @@ float movCoche;
 float movOffset;
 float rotllanta;
 float rotllantaOffset;
-float donas_mov;
-float canica_mov;
-float resorte_mov;
 bool avanza;
 float toffsetflechau = 0.0f;
 float toffsetflechav = 0.0f;
@@ -76,34 +73,12 @@ Texture FlechaTexture;
 Texture NumerosTexture;
 Texture Numero1Texture;
 Texture Numero2Texture;
-Texture DiamanteTexture;
 
 
 
 Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
-Model Cuerpo_Pinball;
-Model Fondo_Pinball;
-Model Obstaculos_Pinball;
-Model Pantalla_Pinball;
-Model Fondo_Pantalla_Pinball;
-Model Resorte;
-Model Canica1;
-Model Canica2;
-Model Canica3;
-Model Paleta1;
-Model Paleta2;
-Model Paleta3;
-Model Kirby;
-Model Kirby_pierna_d;
-Model Kirby_pierna_i;
-Model Kirby_brazo_d;
-Model Kirby_brazo_i;
-Model dona1;
-Model dona2;
-Model dona3;
-Model Estrella;
 
 Skybox skybox;
 
@@ -122,7 +97,6 @@ DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLights[MAX_POINT_LIGHTS];
 SpotLight spotLights[MAX_SPOT_LIGHTS];
-SpotLight spotLights2[MAX_SPOT_LIGHTS];
 
 // Vertex Shader
 static const char* vShader = "shaders/shader_light.vert";
@@ -252,7 +226,6 @@ void CreateObjects()
 
 	};
 
-
 	Mesh *obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj1);
@@ -278,117 +251,13 @@ void CreateObjects()
 	obj6->CreateMesh(scoreVertices, scoreIndices, 32, 6);
 	meshList.push_back(obj6);
 
-}
-void CrearDiamante()
-{
-	unsigned int cubo_indices[] = {
-	0, 1, 2,
-	3, 4, 5,
-	6, 7, 8,
-	9, 10, 11,
-	12, 13, 14,
-	15, 16, 17,
-	18, 19, 20,
-	21, 22, 23,
-	24, 25, 26,
-	27, 28, 29,
-	30, 31, 32,
-	33, 34, 35
-	};
-
-	GLfloat cubo_vertices[] = {
-		// Cara 1
-		0.0, 0.5f, 0.0f, 0.0f, 0.33f, 0.0f, 0.0f, -1.0f, // 0
-		0.0f, 0.0f, 0.5f, 0.25f, 0.33f, 0.0f, 0.0f, -1.0f, // 1
-		0.5f, 0.0f, 0.0f, 0.25f, 0.66f, 0.0f, 0.0f, -1.0f, // 2
-
-		// Cara 2
-		0.0f, 0.5f, 0.0f, 0.25f, 0.33f, -1.0f, 0.0f, 0.0f, // 3
-		0.0f, 0.0f, -0.5f, 0.5f, 0.33f, -1.0f, 0.0f, 0.0f, // 4
-		-0.5f, 0.0f, 0.0f, 0.5f, 0.66f, -1.0f, 0.0f, 0.0f, // 5
-
-		// Cara 3
-		0.0f, 0.5f, 0.0f, 0.5f, 0.33f, 0.0f, 0.0f, 1.0f, // 6
-		0.5f, 0.0f, 0.0f, 0.75f, 0.33f, 0.0f, 0.0f, 1.0f, // 7
-		0.0f, 0.0f, -0.5f, 0.75f, 0.66f, 0.0f, 0.0f, 1.0f, // 8
-
-		// Cara 4
-		0.0f, 0.5f, 0.0f, 0.75f, 0.33f, 1.0f, 0.0f, 0.0f, // 9
-		-0.5f, 0.0f, 0.0f, 1.0f, 0.33f, 1.0f, 0.0f, 0.0f, // 10
-		0.0f, 0.0f, 0.5f, 1.0f, 0.66f, 1.0f, 0.0f, 0.0f, // 11
-
-		// Cara 5
-		0.0f, -0.5f, 0.0f, 0.5f, 0.66f, 0.0f, 1.0f, 0.0f, // 12
-		0.0f, 0.0f, 0.5f, 0.75f, 0.66f, 0.0f, 1.0f, 0.0f, // 13
-		0.5f, 0.0f, 0.0f, 0.75f, 1.0f, 0.0f, 1.0f, 0.0f, // 14
-
-		// Cara 6
-		0.0f, -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, // 15
-		0.0f, 0.0f, -0.5f, 0.75f, 0.0f, 0.0f, -1.0f, 0.0f, // 16
-		0.0f, 0.0f, -0.5f, 0.75f, 0.33f, 0.0f, -1.0f, 0.0f, // 17
-
-		// Cara 7
-		0.0f, -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, // 18
-		0.5f, 0.0f, 0.0f, 0.75f, 0.0f, 0.0f, -1.0f, 0.0f, // 19
-		0.0f, 0.0f, -0.5f, 0.75f, 0.33f, 0.0f, -1.0f, 0.0f, // 20
-
-		// Cara 8
-		0.0f, -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, // 21
-		-0.5f, 0.0f, 0.0f, 0.75f, 0.0f, 0.0f, -1.0f, 0.0f, // 22
-		0.0f, 0.0f, 0.5f, 0.75f, 0.33f, 0.0f, -1.0f, 0.0f, // 23
-
-		// Cara 9
-		0.0f, -0.5f, 0.0f, 0.25f, 0.0f, 0.0f,
-			-1.0f, 0.0f, // 24
-	0.0f, 0.0f, -0.5f, 0.25f, 0.33f, 0.0f, -1.0f, 0.0f, // 25
-	0.0f, 0.0f, 0.5f, 0.5f, 0.33f, 0.0f, -1.0f, 0.0f, // 26
-
-	// Cara 10
-	0.0f, -0.5f, 0.0f, 0.25f, 0.0f, 0.0f, -1.0f, 0.0f, // 27
-	0.0f, 0.0f, 0.5f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, // 28
-	-0.5f, 0.0f, 0.0f, 0.5f, 0.33f, 0.0f, -1.0f, 0.0f, // 29
-
-	// Cara 11
-	0.0f, -0.5f, 0.0f, 0.25f, 0.0f, 0.0f, -1.0f, 0.0f, // 30
-	-0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, -1.0f, 0.0f, // 31
-	0.0f, 0.0f, -0.5f, 0.5f, 0.33f, 0.0f, -1.0f, 0.0f // 32
-	};
-
-	Mesh* dado = new Mesh();
-	dado->CreateMesh(cubo_vertices, cubo_indices, 300, 60);
-	meshList.push_back(dado);
+	Mesh* obj7 = new Mesh();
+	obj7->CreateMesh(numeroVertices, numeroIndices, 32, 6);
+	meshList.push_back(obj7);
 
 }
 
-void CrearBase() {
-	unsigned int octagono_indices[] = {
-	0, 1, 2,
-	0, 2, 3,
-	0, 3, 4,
-	0, 4, 5,
-	0, 5, 6,
-	0, 6, 7,
-	0, 7, 8,
-	0, 8, 1
-	};
 
-	GLfloat octagono_vertices[] = {
-		0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, // Centro del octágono
-
-		// Vértices exteriores del octágono
-		0.5f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 0.0f, 1.0f, // 1
-		0.3536f, 0.3536f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, // 2
-		0.0f, 0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, // 3
-		-0.3536f, 0.3536f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // 4
-		-0.5f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f, // 5
-		-0.3536f, -0.3536f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, // 6
-		0.0f, -0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // 7
-		0.3536f, -0.3536f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f // 8
-	};
-	Mesh* base = new Mesh();
-	base->CreateMesh(octagono_vertices, octagono_indices, 300, 60);
-	meshList.push_back(base);
-}
 void CreateShaders()
 {
 	Shader *shader1 = new Shader();
@@ -505,8 +374,6 @@ int main()
 
 	CreateObjects();
 	CreateShaders();
-	CrearDiamante();
-
 
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
 
@@ -516,7 +383,7 @@ int main()
 	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
-	pisoTexture = Texture("Textures/Skybox/pasto.jpg");
+	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
 	AgaveTexture = Texture("Textures/Agave.tga");
 	AgaveTexture.LoadTextureA();
@@ -528,8 +395,6 @@ int main()
 	Numero1Texture.LoadTextureA();
 	Numero2Texture = Texture("Textures/numero2.tga");
 	Numero2Texture.LoadTextureA();
-	DiamanteTexture = Texture("Textures/diamante.jpg");
-	DiamanteTexture.LoadTextureA();
 
 
 	Kitt_M = Model();
@@ -538,68 +403,23 @@ int main()
 	Llanta_M.LoadModel("Models/llanta_optimizada.obj");
 	Blackhawk_M = Model();
 	Blackhawk_M.LoadModel("Models/uh60.obj");
-	//Maquina Pinball
-	Cuerpo_Pinball = Model();
-	Cuerpo_Pinball.LoadModel("Models/cuerpo_pinball.obj");
-	Fondo_Pinball = Model();
-	Fondo_Pinball.LoadModel("Models/fondo_pinball.obj");
-	Fondo_Pantalla_Pinball = Model();
-	Fondo_Pantalla_Pinball.LoadModel("Models/fondo_pantalla_pinball.obj");
-	Obstaculos_Pinball = Model();
-	Obstaculos_Pinball.LoadModel("Models/obstaculos_pinball.obj");
-	Pantalla_Pinball = Model();
-	Pantalla_Pinball.LoadModel("Models/pantalla_pinball.obj");
-	//Canicas
-	Canica1 = Model();
-	Canica1.LoadModel("Models/canica1.obj");
-	Canica2 = Model();
-	Canica2.LoadModel("Models/canica1.obj");
-	Canica3 = Model();
-	Canica3.LoadModel("Models/canica1.obj");
 
-	//Paletas
-	Paleta1 = Model();
-	Paleta1.LoadModel("Models/paleta_izq.obj");
-	Paleta2 = Model();
-	Paleta2.LoadModel("Models/paleta_der.obj");
-	Paleta3 = Model();
-	Paleta3.LoadModel("Models/paleta_der.obj");
-
-	//Resorte
-	Resorte = Model();
-	Resorte.LoadModel("Models/resorte.obj");
-
-	//Avatar Kirby
-	Kirby = Model();
-	Kirby.LoadModel("Models/kirby_cuerpo.obj");
-	Kirby_pierna_d = Model();
-	Kirby_pierna_d.LoadModel("Models/pie_der_kirby.obj");
-	Kirby_pierna_i = Model();
-	Kirby_pierna_i.LoadModel("Models/pie_izq_kirby.obj");
-	Kirby_brazo_d = Model();
-	Kirby_brazo_d.LoadModel("Models/brazo_derecho_kirby.obj");
-	Kirby_brazo_i = Model();
-	Kirby_brazo_i.LoadModel("Models/brazo_izq_kirby.obj");
-
-	//Donas
-	dona1 = Model();
-	dona1.LoadModel("Models/jerar_1.obj");
-	dona2 = Model();
-	dona2.LoadModel("Models/jerar_2.obj");
-	dona3 = Model();
-	dona3.LoadModel("Models/jerar_3.obj");
-	//ESTRELLAS
-	Estrella = Model();
-	Estrella.LoadModel("Models/Star.obj");
 
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
-	skyboxFaces.push_back("Textures/Skybox/sky.jpg");
+	skyboxFaces.push_back("Textures/Skybox/sp2_rt.png");
+	skyboxFaces.push_back("Textures/Skybox/sp2_lf.png");
+	skyboxFaces.push_back("Textures/Skybox/sp2_dn.png");
+	skyboxFaces.push_back("Textures/Skybox/sp2_up.png");
+	skyboxFaces.push_back("Textures/Skybox/sp2_bk.png");
+	skyboxFaces.push_back("Textures/Skybox/sp2_ft.png");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
+	//skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+
 
 	skybox = Skybox(skyboxFaces);
 
@@ -621,26 +441,23 @@ int main()
 	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
-	unsigned int spotLightCount2 = 0;
-	
-
-	//luz fija alumbra el Pinball
+	//linterna
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.06f, 0.06f,
-		0.0f, 30.0f, 5.0f,
-		0.0f, -5.0f, 0.0f,
-		0.2f, 0.0f, 0.0f,
-		25.0f);
+		0.0f, 2.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		5.0f);
 	spotLightCount++;
-	//Luz zona de las paletas
-	spotLights2[0] = SpotLight(1.0f, 0.0f, 0.0f,
-		0.1f, 0.1f,
-		-1.2f, 30.0f, 10.0f,
-		0.0f, -5.0f, 0.0f,
-		0.2f, 0.0f, 0.0f,
-		7.0f);
-	spotLightCount2++;
 
+	//luz fija
+	spotLights[1] = SpotLight(0.0f, 0.0f, 1.0f,
+		1.0f, 2.0f,
+		5.0f, 10.0f, 0.0f,
+		0.0f, -5.0f, 0.0f,
+		1.0f, 0.0f, 0.0f,
+		15.0f);
+	spotLightCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -649,7 +466,7 @@ int main()
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 	
 	movCoche = 0.0f;
-	movOffset = 0.0001f;
+	movOffset = 0.01f;
 	rotllanta = 0.0f;
 	rotllantaOffset = 10.0f;
 	glm::vec3 posblackhawk = glm::vec3(2.0f, 0.0f, 0.0f);
@@ -704,6 +521,13 @@ int main()
 
 		angulovaria += 0.5f*deltaTime;
 
+		if (movCoche < 30.0f)
+		{
+			movCoche -= movOffset * deltaTime;
+			//printf("avanza%f \n ",movCoche);
+		}
+		rotllanta += rotllantaOffset * deltaTime;
+
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
@@ -737,39 +561,12 @@ int main()
 		// luz ligada a la cámara de tipo flash
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
-
-		//prender y apagar luz paletas
-
-		if (mainWindow.getarregloluces() == 1)
-		{
-			if (mainWindow.getlinterna() == true)
-			{
-				shaderList[0].SetSpotLights(spotLights, spotLightCount);
-			}
-			else
-			{
-				shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
-			}
-
-		}
-		else
-		{
-			if (mainWindow.getlinterna() == true)
-			{
-				shaderList[0].SetSpotLights(spotLights2, spotLightCount2);
-			}
-			else
-			{
-				shaderList[0].SetSpotLights(spotLights2, spotLightCount2 - 1);
-			}
-		}
-		
-		
-		
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
+		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 
 
@@ -790,231 +587,224 @@ int main()
 
 		meshList[2]->RenderMesh();
 
-		//Obstaculo jerarquico
-		if (donas_mov < 0.5f) {
-			donas_mov += 0.001* deltaTime;
-		}
-		else  {
-			donas_mov = 0;
-		}	
 
-		// OBSTACULO 1
-		//dona 1
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-2.5f,  11.35f - donas_mov, 5.0f));
-		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona1.RenderModel();
-		//dona 2
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona2.RenderModel();
-		//dona 3
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona3.RenderModel();
 
-		// OBSTACULO 2
-		//dona 1
+		//Instancia del coche 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-0.5f, 11.35f-donas_mov, 5.0f));
-		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+		model = glm::translate(model, glm::vec3(movCoche-50.0f, 0.5f, -2.0f));
 		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona1.RenderModel();
-		//dona 2
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona2.RenderModel();
-		//dona 3
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona3.RenderModel();
-
-		// OBSTACULO 3
-		//dona 1
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-1.5f, 10.8f + donas_mov, 7.0f));
-		model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona1.RenderModel();
-		//dona 2
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona2.RenderModel();
-		//dona 3
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 10.0f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dona3.RenderModel();
-
-		//ESTRELLA
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 11.35f, 3.5f));
-		model = glm::scale(model, glm::vec3(0.0025f, 0.0025f, 0.0025f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Estrella.RenderModel();
-		//Estrella 2
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 11.35f, 2.0f));
-		model = glm::scale(model, glm::vec3(0.0025f, 0.0025f, 0.0025f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Estrella.RenderModel();
-
-		//DIAMANTE
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0f, 11.8f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DiamanteTexture.UseTexture();
-		meshList[6]->RenderMesh();
-
-		//Instancias cuerpo del Pinball
-
-		//Instancia del cuerpo del Pinball
-		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Cuerpo_Pinball.RenderModel();
+		Kitt_M.RenderModel();
 
-		//Instancia Fondo del cuerpo Pinball
-		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		//Llanta delantera izquierda
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 8.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotllanta * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		color = glm::vec3(0.5f, 0.5f, 0.5f);//llanta con color gris
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Fondo_Pinball.RenderModel();
+		Llanta_M.RenderModel();
+
+		//Llanta trasera izquierda
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 8.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotllanta * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Llanta_M.RenderModel();
+
+		//Llanta delantera derecha
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(7.0f, -0.5f, 1.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -rotllanta * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Llanta_M.RenderModel();
+
+		//Llanta trasera derecha
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(15.5f, -0.5f, 1.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -rotllanta * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Llanta_M.RenderModel();
+
+
+		model = glm::mat4(1.0);
+		posblackhawk=glm::vec3(posXavion + movAvion_x, posYavion + movAvion_y, posZavion);
+		model = glm::translate(model, posblackhawk);
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, giroAvion * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//color = glm::vec3(0.0f, 1.0f, 0.0f);
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Blackhawk_M.RenderModel();
 		
-		//Instancia Pantalla Pinball
+
+		
+
+		//Agave ¿qué sucede si lo renderizan antes del coche y de la pista?
 		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(0.0f, -2.25f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Pantalla_Pinball.RenderModel();
-
-		//Instancia Fondo de Pantalla Pinball
-		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(0.0f, -2.25f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Fondo_Pantalla_Pinball.RenderModel();
-		//Intancia obstaculos contorno
-		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(0.0f, -2.25f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Obstaculos_Pinball.RenderModel();
-
-		//Intancias Canicas
-		if (canica_mov < 6.5f) {
-			canica_mov += 0.05 * deltaTime;
-
-		}
-		else {
-			canica_mov = 0;
-		}
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(1.8f, 11.5f, -canica_mov+11.0f));
-
-		model = glm::scale(model, glm::vec3(0.045f, 0.045f, 0.045f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Canica1.RenderModel();
-
-		//Instancia Resorte
-		if (resorte_mov< 0.05f) {
-			resorte_mov += 0.0005 * deltaTime;
-
-		}
-		else {
-			resorte_mov = 0;
-		}
-		model = glm::mat4(1.0);
-		modelaux = model;
-		model = glm::translate(model, glm::vec3(1.8f, 11.5f, 12.0f));
-		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f - resorte_mov));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Resorte.RenderModel();
-		modelaux = model;
-
-		//Instancia Paletas
-		//Paleta1
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(1.8f, 11.5f, 12.0f));
-		model = glm::scale(model, glm::vec3(0.08f, 0.08f, 0.08f ));
-		model = glm::translate(model, glm::vec3(-47.5f, -5.0f, -15.0f)); 
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, -2.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Paleta1.RenderModel();
-		modelaux = model;
-
-		//Paleta2
-		model=modelaux;
-		model = glm::translate(model, glm::vec3(10.0f,-12.0f, -2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Paleta2.RenderModel();
-		modelaux = model;
+		//blending: transparencia o traslucidez
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		AgaveTexture.UseTexture();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[3]->RenderMesh();
 		
-		//Paleta3
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(4.8f, 0.0f, -8.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Paleta2.RenderModel();
+		//textura con movimiento
+		//Importantes porque la variable uniform no podemos modificarla directamente
+		toffsetflechau += 0.001;
+		toffsetflechav += 0.0;
+		//para que no se desborde la variable
+		if (toffsetflechau > 1.0)
+			toffsetflechau = 0.0;
+		//if (toffsetv > 1.0)
+		//	toffsetv = 0;
+		//printf("\ntfosset %f \n", toffsetu);
+		//pasar a la variable uniform el valor actualizado
+		toffset = glm::vec2(toffsetflechau, toffsetflechav);
 
-		//kirby Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-1.0f, 11.4f, 10.0f)); 
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		model = glm::translate(model, glm::vec3(-2.0f, 1.0f, -6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kirby.RenderModel();
-		//piernas
-		//Derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-0.15f, -0.18f, -0.22f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		color = glm::vec3(1.0f, 0.0f, 0.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		FlechaTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[4]->RenderMesh();
+	/*
+		//plano con todos los números
+		toffsetnumerou = 0.0;
+		toffsetnumerov = 0.0;
+		toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-6.0f, 2.0f, -6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kirby_pierna_d.RenderModel();
-		// Izquier
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.45f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		NumerosTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[5]->RenderMesh();
+
+		//número 1
+		//toffsetnumerou = 0.0;
+		//toffsetnumerov = 0.0;
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-10.0f, 2.0f, -6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		//glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kirby_pierna_i.RenderModel();
-		//Brazos
-		//Derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.15f, 0.2f, 0.1f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		NumerosTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[6]->RenderMesh();
+
+		for (int i = 1; i<4; i++)
+		{
+			//números 2-4
+			toffsetnumerou += 0.25;
+			toffsetnumerov = 0.0;
+			toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-10.0f - (i * 3.0), 2.0f, -6.0f));
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			NumerosTexture.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[6]->RenderMesh();
+
+		 }
+
+		for (int j = 1; j < 5; j++)
+		{
+			//números 5-8
+			toffsetnumerou += 0.25;
+			toffsetnumerov = -0.33;
+			toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-7.0f - (j * 3.0), 5.0f, -6.0f));
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			NumerosTexture.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[6]->RenderMesh();
+		}
+ 
+	*/
+		//número cambiante 
+		/*
+		¿Cómo hacer para que sea a una velocidad visible?
+		*/
+	/*
+		toffsetnumerocambiau += 0.25; 
+		if (toffsetnumerocambiau > 1.0)
+			toffsetnumerocambiau = 0.0;
+		toffsetnumerov = 0.0;
+		toffset = glm::vec2(toffsetnumerocambiau, toffsetnumerov);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-10.0f, 10.0f, -6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kirby_brazo_i.RenderModel();
-		// Izquier
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.65f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.015f, 0.015f, 0.015f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		NumerosTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[6]->RenderMesh();
+
+		//cambiar automáticamente entre textura número 1 y número 2
+		toffsetnumerou = 0.0;
+		toffsetnumerov = 0.0;
+		toffset = glm::vec2(toffsetnumerou, toffsetnumerov);
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-13.0f, 10.0f, -6.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Kirby_brazo_d.RenderModel();
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Numero1Texture.UseTexture();
+		//if
+		//Numero1Texture.UseTexture();
+		//Numero2Texture.UseTexture();
+		
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[5]->RenderMesh();
+	*/
+
+
 
 		glDisable(GL_BLEND);
 		
